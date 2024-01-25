@@ -130,7 +130,7 @@ export class URLParamsParser implements Parser {
 				obj,
 				path,
 				possibleCast(
-					decodeURIComponent(part.value),
+					decodeURIComponent(part.value.replaceAll("+", "%20")),
 					this.config,
 				),
 			);

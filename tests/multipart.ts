@@ -11,7 +11,7 @@ test("it passes nested multipart form with arrays (softForm with multipart)", as
 	const reqData = {
 		a: 1,
 		b: "",
-		blbl: "foo",
+		blbl: "foo bar",
 		c: {
 			d: 3,
 			e: "foo",

@@ -56,7 +56,7 @@ test("it auto negotiates content (softPat with application/x-www-form-urlencoded
 		headers: {
 			"content-type": "application/x-www-form-urlencoded",
 		},
-		body: "a=1&b=2&&c.d=3&e=foo&f.g=4&f.bgfd=5&f.h[]=foo%20bar&c.e=bb",
+		body: "a=1&b=2&&c.d=3&e=foo&f.g=4&f.bgfd=5&f.h[]=foo+bar&c.e=bb",
 	});
 
 	const result = await bodyguard.softPat(req, undefined, {
