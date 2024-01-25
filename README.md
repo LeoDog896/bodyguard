@@ -19,11 +19,11 @@ npm install --save @auth70/bodyguard
 
 ## Features
 
-- **Parse (nested!) object *and* array form data with dot (`foo.bar`) and square bracket `(baz[0])` syntax** in both multipart and URL-encoded forms.
+- **Parse (nested!) object _and_ array form data with dot (`foo.bar`) and square bracket `(baz[0])` syntax** in both multipart and URL-encoded forms.
 - **Prevents resource exhaustion** by bailing early on streams that are too large, have too many (or too large) keys, or have too much nesting.
 - **Guards against [prototype pollution](https://cheatsheetseries.owasp.org/cheatsheets/Prototype_Pollution_Prevention_Cheat_Sheet.html)** in JSON and form data.
-- **Enforce parsed data to pass a validator** using [Zod](https://zod.dev/) or similar library *(optional)*.
-- **Cast numbers and booleans from strings in form data** *(optional)*.
+- **Enforce parsed data to pass a validator** using [Zod](https://zod.dev/) or similar library _(optional)_.
+- **Cast numbers and booleans from strings in form data** _(optional)_.
 
 ### Supported content types
 
@@ -40,23 +40,23 @@ npm install --save @auth70/bodyguard
 
 **Each method in Bodyguard has two versions.** One that throws an error if the body is invalid (e.g. `form()`), and one that returns an error instead (e.g. `softForm()`). You may pick whichever suits your workflow.
 
-**If you pass in a validator, it *has* to throw an error if the data is invalid.** If the data is valid, it should return the parsed data. If you don't pass in a validator, the parsed data is returned as-is.
+**If you pass in a validator, it _has_ to throw an error if the data is invalid.** If the data is valid, it should return the parsed data. If you don't pass in a validator, the parsed data is returned as-is.
 
 ### Getting started
 
 Initialise a Bodyguard instance with your preferred options. You can use it as a singleton or create multiple instances.
 
 ```ts
-import { Bodyguard } from '@auth70/bodyguard';
+import { Bodyguard } from "@auth70/bodyguard";
 
 // All arguments are optional with their defaults shown below
 const bodyguard = new Bodyguard({
-    maxSize: 1024 * 1024 * 1, // Default: 1MB
-    maxKeys: 100, // Default: Allows up to 100 total keys
-    maxDepth: 10, // Default: Allows up to 10 levels of nesting
-    maxKeyLength: 100, // Default: Allows up to 100 characters per key
-    castNumbers: false, // Default: Does NOT automatically cast numbers in form data
-    castBooleans: false, // Default: Does NOT automatically cast "true" and "false" as boolean in form data
+	maxSize: 1024 * 1024 * 1, // Default: 1MB
+	maxKeys: 100, // Default: Allows up to 100 total keys
+	maxDepth: 10, // Default: Allows up to 10 levels of nesting
+	maxKeyLength: 100, // Default: Allows up to 100 characters per key
+	castNumbers: false, // Default: Does NOT automatically cast numbers in form data
+	castBooleans: false, // Default: Does NOT automatically cast "true" and "false" as boolean in form data
 });
 ```
 
@@ -68,35 +68,35 @@ For example, in a SvelteKit action:
 
 ```ts
 // src/routes/+page.server.ts
-import { z } from 'zod';
+import { z } from "zod";
 
 // Define a validator, using Zod in this example
-const RouteSchema = z.object({ name: z.string() }); 
+const RouteSchema = z.object({ name: z.string() });
 
 export const actions = {
-    default: async ({ request, locals }) => {
-        const { success, value } = await locals.bodyguard.softForm(
-            request, // Pass in the request
-            RouteSchema.parse // Pass in the validator
-        );
-        /**
-         * success: boolean
-         * error?: Error
-         * value?: { name: string } <-- typed!
-         */
-        if(!success) {
-            return {
-                status: 400,
-                body: JSON.stringify({ error: error.message }),
-            }
-        }
-        return {
-            status: 302,
-            headers: {
-                location: `/${value.name}`,
-            },
-        }
-    },
+	default: async ({ request, locals }) => {
+		const { success, value } = await locals.bodyguard.softForm(
+			request, // Pass in the request
+			RouteSchema.parse, // Pass in the validator
+		);
+		/**
+		 * success: boolean
+		 * error?: Error
+		 * value?: { name: string } <-- typed!
+		 */
+		if (!success) {
+			return {
+				status: 400,
+				body: JSON.stringify({ error: error.message }),
+			};
+		}
+		return {
+			status: 302,
+			headers: {
+				location: `/${value.name}`,
+			},
+		};
+	},
 } satisfies Actions;
 ```
 
@@ -126,15 +126,15 @@ Values are decoded using `decodeURIComponent()`
 
 #### Numbers
 
-*Auto-cast numbers by passing `castNumbers: true` as an option.*
+_Auto-cast numbers by passing `castNumbers: true` as an option._
 
-If the value passes `!isNaN()` it's cast as a number. For example, `"3"` is returned as `3`, `"3.14"` is returned as `3.14`, etc. *This is disabled by default*.
+If the value passes `!isNaN()` it's cast as a number. For example, `"3"` is returned as `3`, `"3.14"` is returned as `3.14`, etc. _This is disabled by default_.
 
 #### Booleans
 
-*Auto-cast booleans by passing `castBooleans: true` as an option.*
+_Auto-cast booleans by passing `castBooleans: true` as an option._
 
-If the value is `"true"` or `"false"`, it's cast as a boolean. For example, `"true"` is returned as `true`, `"false"` is returned as `false`. *This is disabled by default*.
+If the value is `"true"` or `"false"`, it's cast as a boolean. For example, `"true"` is returned as `true`, `"false"` is returned as `false`. _This is disabled by default_.
 
 #### Empty strings
 
@@ -196,36 +196,40 @@ The above comes out as:
 **routes/+page.server.ts**
 
 ```ts
-import { z } from 'zod';
-import { Bodyguard } from '@auth70/bodyguard';
+import { Bodyguard } from "@auth70/bodyguard";
+import { z } from "zod";
 
 const bodyguard = new Bodyguard(); // Or use a singleton, or put it in locals
 
 const RouteSchema = z.object({ name: z.string() });
 
 export const actions = {
-    default: async ({ request, locals }) => {
-        const { success, value } = await bodyguard.softForm(request, RouteSchema.parse);
-        /**
-         * success: boolean
-         * error?: Error
-         * value?: { name: string }
-         */
-        if(!success) {
-            return {
-                status: 400,
-                body: JSON.stringify({ error: error.message }),
-            }
-        }
-        return {
-            status: 302,
-            headers: {
-                location: `/${value.name}`,
-            },
-        }
-    },
+	default: async ({ request, locals }) => {
+		const { success, value } = await bodyguard.softForm(
+			request,
+			RouteSchema.parse,
+		);
+		/**
+		 * success: boolean
+		 * error?: Error
+		 * value?: { name: string }
+		 */
+		if (!success) {
+			return {
+				status: 400,
+				body: JSON.stringify({ error: error.message }),
+			};
+		}
+		return {
+			status: 302,
+			headers: {
+				location: `/${value.name}`,
+			},
+		};
+	},
 } satisfies Actions;
 ```
+
 </details>
 
 ### Hono example
