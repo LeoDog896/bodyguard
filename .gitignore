@@ -4,3 +4,8 @@ node_modules
 *.lcov
 dist
 coverage
+
+# ignore lockfiles
+package-lock.json
+pnpm-lock.yaml
+yarn.lock

@@ -14,7 +14,8 @@
     "watch": "tsc -w",
     "test": "tsm node_modules/uvu/bin.js tests",
     "test:coverage": "c8 --include=src npm test",
-    "test:report": "c8 report --reporter=text-lcov > coverage.lcov"
+    "test:report": "c8 report --reporter=text-lcov > coverage.lcov",
+    "format": "dprint fmt"
   },
   "homepage": "https://github.com/auth70/bodyguard",
   "repository": "github:auth70/bodyguard",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "c8": "^8.0.1",
+    "dprint": "^0.45.0",
     "tsm": "^2.3.0",
     "typescript": "^5.3.3",
     "uvu": "^0.5.6"
