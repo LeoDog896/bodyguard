@@ -80,7 +80,11 @@ export class JSONParser implements Parser {
 					reject(new Error(ERRORS.KEY_TOO_LONG));
 				}
 				if (stack.length > 0) return;
-				resolve(value);
+				if (value === undefined) {
+					reject(new Error(ERRORS.INVALID_INPUT));
+				} else {
+					resolve(value);
+				}
 			};
 
 			jsonparser.onError = (error) => {
