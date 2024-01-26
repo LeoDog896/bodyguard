@@ -1,12 +1,13 @@
 {
-	"name": "@auth70/bodyguard",
-	"version": "1.3.0",
+	"name": "@leodog896/bodyguard",
+	"version": "1.3.1",
 	"description": "Fetch API compatible streaming JSON and form data body parser and guard",
 	"keywords": [
 		"request",
 		"fetch",
 		"body-parsing"
 	],
+	"private": false,
 	"type": "module",
 	"types": "./dist/index.d.ts",
 	"scripts": {
@@ -17,8 +18,8 @@
 		"test:report": "c8 report --reporter=text-lcov > coverage.lcov",
 		"format": "dprint fmt"
 	},
-	"homepage": "https://github.com/auth70/bodyguard",
-	"repository": "github:auth70/bodyguard",
+	"homepage": "https://github.com/LeoDog896/bodyguard",
+	"repository": "github:LeoDog896/bodyguard",
 	"contributors": [
 		{
 			"name": "miunau",
