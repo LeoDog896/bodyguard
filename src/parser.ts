@@ -1,3 +1,4 @@
+// @ts-ignore
 import parseMultipartMessage, { TMultipartMessageGenerator } from "@exact-realty/multipart-parser";
 import { JSONParser as JSONStreamingParser, TokenType } from "@streamparser/json";
 import {
